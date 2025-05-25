@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: denmit
+  - include:
+      file: data/001_create_user_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data/002_create_account_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data/003_create_email_data_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data/004_create_phone_data_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data/005_insert_user_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data/006_insert_account_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data/007_insert_email_data_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data/008_insert_phone_data_table.sql
+      relativeToChangelogFile: true
+
+
+

@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  userbalancedb:
+    image: debezium/postgres:15-alpine
+    container_name: userbalancedb
+    environment:
+      - POSTGRES_DB=userbalancedb
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+    ports:
+      - "5432:5432"
+    networks:
+      - app-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+    networks:
+      - app-net
+
+  elasticsearch-balance:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: elasticsearch-balance
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - app-net
+
+volumes:
+  pg_data:
+  es_data:
+
+networks:
+  app-net:
